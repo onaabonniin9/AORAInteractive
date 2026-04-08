@@ -8,18 +8,31 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
     private bool isGrounded;
 
+    private Vector3 spawnPoint;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        spawnPoint = transform.position;
     }
 
     void Update()
     {
-        // Movimiento izquierda/derecha
-        float move = Input.GetAxis("Horizontal");
-        rb.linearVelocity = new Vector3(move * speed, rb.linearVelocity.y, 0);
+        HandleMovement();
+        HandleJump();
+    }
 
-        // Salto
+    void HandleMovement()
+    {
+        float moveX = Input.GetAxis("Horizontal"); // A/D
+        float moveZ = Input.GetAxis("Vertical");   // W/S
+
+        Vector3 movement = new Vector3(moveX * speed, rb.linearVelocity.y, moveZ * speed);
+        rb.linearVelocity = movement;
+    }
+
+    void HandleJump()
+    {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -40,5 +53,23 @@ public class PlayerMovement : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Obstacle") || other.CompareTag("Enemy"))
+        {
+            Respawn();
+        }
+    }
+
+    void Respawn()
+    {
+        transform.position = spawnPoint;
+
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        isGrounded = false;
     }
 }

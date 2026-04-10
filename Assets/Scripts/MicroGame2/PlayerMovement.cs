@@ -20,12 +20,16 @@ public class PlayerMovement : MonoBehaviour
     {
         HandleMovement();
         HandleJump();
+        if (transform.position.y < 1.5f)
+        {
+            Respawn();
+        }
     }
 
     void HandleMovement()
     {
-        float moveX = Input.GetAxis("Horizontal"); // A/D
-        float moveZ = Input.GetAxis("Vertical");   // W/S
+        float moveX = Input.GetAxis("Horizontal");
+        float moveZ = Input.GetAxis("Vertical");
 
         Vector3 movement = new Vector3(moveX * speed, rb.linearVelocity.y, moveZ * speed);
         rb.linearVelocity = movement;
@@ -43,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = true;
+        isGrounded = true;
         }
     }
 
@@ -57,7 +61,9 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Obstacle") || other.CompareTag("Enemy"))
+        if (other.CompareTag("Obstacle") || 
+            other.CompareTag("Enemy") || 
+            other.CompareTag("KillZone"))
         {
             Respawn();
         }

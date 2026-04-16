@@ -28,6 +28,7 @@ public class GazeShoot : MonoBehaviour
                     {
                         Vector3 position = hit.collider.transform.position;
 
+                        GameManager.instance.AddScore(1);
                         Destroy(currentTarget);
                         ResetGaze();
 

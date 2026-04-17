@@ -1,96 +1,156 @@
 ﻿using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class GameManager_G5 : MonoBehaviour
 {
     public static GameManager_G5 instance;
 
-    [Header("Game State")]
-    public int coinsG5 = 0;
-    public int coinsToWinG5 = 10;
+    public int score = 0;
+    public GameObject enemyPrefab;
 
-    public float timeLeftG5 = 90f;
-    private bool gameEndedG5 = false;
+    public TextMeshProUGUI scoreText;
 
-    [Header("UI In-Game")]
-    public TextMeshProUGUI timerTextG5;
-    public TextMeshProUGUI coinsTextG5;
+    public float gameTime = 60f;
+    private float currentTime;
+    public TextMeshProUGUI timerText;
 
-    [Header("End Screen")]
-    public GameObject endScreenPanelG5;
-    public TextMeshProUGUI resultTextG5;
+    public TextMeshProUGUI gameOverText;
+
+    // 🆕 Control de posiciones ocupadas
+    private bool[] occupiedPositions;
+    private int totalPositions = 12;
 
     void Awake()
     {
         instance = this;
     }
 
-    void Update()
+    void Start()
     {
-        if (gameEndedG5) return;
+        UpdateScoreUI();
+        currentTime = gameTime;
 
-        HandleTimerG5();
-        UpdateUIG5();
-    }
+        // 🆕 Inicializar array de posiciones
+        occupiedPositions = new bool[totalPositions];
 
-    void UpdateUIG5()
-    {
-        if (timerTextG5 != null)
-            timerTextG5.text = "Tiempo: " + Mathf.Ceil(timeLeftG5);
-
-        if (coinsTextG5 != null)
-            coinsTextG5.text = "Monedas: " + coinsG5;
-    }
-
-    public void AddCoinG5()
-    {
-        if (gameEndedG5) return;
-
-        coinsG5++;
-    }
-
-    void HandleTimerG5()
-    {
-        timeLeftG5 -= Time.deltaTime;
-
-        if (timeLeftG5 <= 0)
+        // 🔥 SPAWN INICIAL (8 fantasmas)
+        for (int i = 0; i < 8; i++)
         {
-            timeLeftG5 = 0;
-
-            if (coinsG5 >= coinsToWinG5)
-                WinGameG5();
-            else
-                LoseGameG5();
+            SpawnEnemy();
         }
     }
 
-    void WinGameG5()
+    void Update()
     {
-        EndGameG5(true);
+        if (currentTime > 0)
+        {
+            currentTime -= Time.deltaTime;
+
+            if (currentTime <= 0)
+            {
+                currentTime = 0;
+                EndGame();
+            }
+
+            int seconds = Mathf.CeilToInt(currentTime);
+            timerText.text = "Tiempo: " + seconds;
+        }
     }
 
-    void LoseGameG5()
+    public void AddScoreG5(int points)
     {
-        EndGameG5(false);
+        if (currentTime <= 0) return;
+
+        score += points;
+        UpdateScoreUI();
+
+        // 🔁 Cada vez que matas uno → aparece otro
+        SpawnEnemy();
     }
 
-    void EndGameG5(bool win)
+    void UpdateScoreUI()
     {
-        gameEndedG5 = true;
+        scoreText.text = "Puntos: " + score;
+    }
 
-        if (endScreenPanelG5 != null)
-            endScreenPanelG5.SetActive(true);
+    void SpawnEnemy()
+    {
+        float radius = 5f;
 
-        if (resultTextG5 != null)
-            resultTextG5.text = win ? "¡VICTORIA!" : "GAME OVER";
+        // 🔍 Buscar posición libre
+        int randomIndex = -1;
+
+        for (int i = 0; i < 20; i++) // intentos
+        {
+            int index = Random.Range(0, totalPositions);
+            if (!occupiedPositions[index])
+            {
+                randomIndex = index;
+                break;
+            }
+        }
+
+        // ❗ fallback (por si todas están ocupadas)
+        if (randomIndex == -1)
+        {
+            randomIndex = Random.Range(0, totalPositions);
+        }
+
+        occupiedPositions[randomIndex] = true;
+
+        float angle = (360f / totalPositions) * randomIndex;
+
+        float x = Mathf.Sin(angle * Mathf.Deg2Rad) * radius;
+        float z = Mathf.Cos(angle * Mathf.Deg2Rad) * radius;
+
+        Vector3 spawnPosition = new Vector3(x, 1f, z);
+
+        GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+
+        // 👻 HACER QUE MIRE A LA CÁMARA
+        if (Camera.main != null)
+        {
+            Vector3 direction = Camera.main.transform.position - enemy.transform.position;
+            direction.y = 0;
+
+            if (direction != Vector3.zero)
+            {
+                enemy.transform.rotation = Quaternion.LookRotation(direction);
+            }
+        }
+
+        // 🆕 Guardar índice en el enemigo
+        Enemy enemyScript = enemy.GetComponent<Enemy>();
+        if (enemyScript != null)
+        {
+            enemyScript.positionIndex = randomIndex;
+        }
+    }
+
+    // 🆕 Liberar posición cuando muere
+    public void FreePositionG5(int index)
+    {
+        if (index >= 0 && index < occupiedPositions.Length)
+        {
+            occupiedPositions[index] = false;
+        }
+    }
+
+    void EndGame()
+    {
+        Debug.Log("FIN DEL JUEGO");
+
+        if (score >= 10)
+        {
+            gameOverText.text = "¡HAS GANADO!\nPuntuación: " + score;
+        }
+        else
+        {
+            gameOverText.text = "HAS PERDIDO\nPuntuación: " + score;
+        }
+
+        gameOverText.gameObject.SetActive(true);
 
         Time.timeScale = 0f;
-    }
-
-    public void RestartGameG5()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

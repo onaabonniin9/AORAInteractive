@@ -1,9 +1,14 @@
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class GazeShoot : MonoBehaviour
 {
     public float gazeTimeRequired = 1.0f;
-    public GameObject enemyPrefab;
+
+    // 🎯 Crosshair
+    public Image crosshair;
+    public Color normalColor = Color.white;
+    public Color targetColor = Color.green;
 
     private float gazeTimer = 0f;
     private GameObject currentTarget = null;
@@ -20,19 +25,19 @@ public class GazeShoot : MonoBehaviour
         {
             if (hit.collider.CompareTag("Enemy"))
             {
+                // 🟢 Apuntando a enemigo
+                crosshair.color = targetColor;
+                crosshair.transform.localScale = Vector3.one * 1.5f;
+
                 if (currentTarget == hit.collider.gameObject)
                 {
                     gazeTimer += Time.deltaTime;
 
                     if (gazeTimer >= gazeTimeRequired)
                     {
-                        Vector3 position = hit.collider.transform.position;
-
                         GameManager.instance.AddScore(1);
                         Destroy(currentTarget);
                         ResetGaze();
-
-                        Invoke(nameof(SpawnEnemy), 1.5f);
                     }
                 }
                 else
@@ -43,29 +48,27 @@ public class GazeShoot : MonoBehaviour
             }
             else
             {
+                ResetVisual();
                 ResetGaze();
             }
         }
         else
         {
+            ResetVisual();
             ResetGaze();
         }
-    }
-
-    void SpawnEnemy()
-    {
-        Vector3 newPosition = new Vector3(
-            Random.Range(-5f, 5f),
-            1f,
-            Random.Range(2f, 6f)
-        );
-
-        Instantiate(enemyPrefab, newPosition, Quaternion.identity);
     }
 
     void ResetGaze()
     {
         gazeTimer = 0f;
         currentTarget = null;
+    }
+
+    void ResetVisual()
+    {
+        // ⚪ Estado normal
+        crosshair.color = normalColor;
+        crosshair.transform.localScale = Vector3.one;
     }
 }

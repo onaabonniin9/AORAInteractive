@@ -14,8 +14,11 @@ public class GameManager : MonoBehaviour
     private float currentTime;
     public TextMeshProUGUI timerText;
 
-    
-    public GameObject gameOverText;
+    public TextMeshProUGUI gameOverText;
+
+    // 🆕 Control de posiciones ocupadas
+    private bool[] occupiedPositions;
+    private int totalPositions = 12;
 
     void Awake()
     {
@@ -26,6 +29,15 @@ public class GameManager : MonoBehaviour
     {
         UpdateScoreUI();
         currentTime = gameTime;
+
+        // 🆕 Inicializar array de posiciones
+        occupiedPositions = new bool[totalPositions];
+
+        // 🔥 SPAWN INICIAL (8 fantasmas)
+        for (int i = 0; i < 8; i++)
+        {
+            SpawnEnemy();
+        }
     }
 
     void Update()
@@ -51,6 +63,8 @@ public class GameManager : MonoBehaviour
 
         score += points;
         UpdateScoreUI();
+
+        // 🔁 Cada vez que matas uno → aparece otro
         SpawnEnemy();
     }
 
@@ -62,40 +76,80 @@ public class GameManager : MonoBehaviour
     void SpawnEnemy()
     {
         float radius = 5f;
-        int totalPositions = 12;
 
-        int randomIndex = Random.Range(0, totalPositions);
+        // 🔍 Buscar posición libre
+        int randomIndex = -1;
+
+        for (int i = 0; i < 20; i++) // intentos
+        {
+            int index = Random.Range(0, totalPositions);
+            if (!occupiedPositions[index])
+            {
+                randomIndex = index;
+                break;
+            }
+        }
+
+        // ❗ fallback (por si todas están ocupadas)
+        if (randomIndex == -1)
+        {
+            randomIndex = Random.Range(0, totalPositions);
+        }
+
+        occupiedPositions[randomIndex] = true;
+
         float angle = (360f / totalPositions) * randomIndex;
 
         float x = Mathf.Sin(angle * Mathf.Deg2Rad) * radius;
         float z = Mathf.Cos(angle * Mathf.Deg2Rad) * radius;
 
-        Vector3 spawnPosition = new Vector3(x, 0.5f, z);
+        Vector3 spawnPosition = new Vector3(x, 1f, z);
 
-        Collider[] colliders = Physics.OverlapSphere(spawnPosition, 1f);
+        GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
 
-        if (colliders.Length == 0)
+        // 👻 HACER QUE MIRE A LA CÁMARA
+        if (Camera.main != null)
         {
-            Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
+            Vector3 direction = Camera.main.transform.position - enemy.transform.position;
+            direction.y = 0;
+
+            if (direction != Vector3.zero)
+            {
+                enemy.transform.rotation = Quaternion.LookRotation(direction);
+            }
+        }
+
+        // 🆕 Guardar índice en el enemigo
+        Enemy enemyScript = enemy.GetComponent<Enemy>();
+        if (enemyScript != null)
+        {
+            enemyScript.positionIndex = randomIndex;
+        }
+    }
+
+    // 🆕 Liberar posición cuando muere
+    public void FreePosition(int index)
+    {
+        if (index >= 0 && index < occupiedPositions.Length)
+        {
+            occupiedPositions[index] = false;
         }
     }
 
     void EndGame()
     {
-        string mensaje;
+        Debug.Log("FIN DEL JUEGO");
 
         if (score >= 10)
         {
-            mensaje = "¡HAS GANADO!\nPuntuación: " + score;
+            gameOverText.text = "¡HAS GANADO!\nPuntuación: " + score;
         }
         else
         {
-            mensaje = "HAS PERDIDO\nPuntuación: " + score;
+            gameOverText.text = "HAS PERDIDO\nPuntuación: " + score;
         }
 
-        gameOverText.GetComponent<TextMeshProUGUI>().text = mensaje;
-
-        gameOverText.SetActive(true);
+        gameOverText.gameObject.SetActive(true);
 
         Time.timeScale = 0f;
     }

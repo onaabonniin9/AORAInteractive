@@ -7,16 +7,16 @@ public class Enemy : MonoBehaviour
 
     void OnMouseDown()
     {
-        GameManager.instance.AddScore(1);
+        GameManager_G5.instance.AddScoreG5(1);
         Destroy(gameObject);
     }
 
     void OnDestroy()
     {
         // 🆕 Liberar la posición cuando muere
-        if (GameManager.instance != null)
+        if (GameManager_G5.instance != null)
         {
-            GameManager.instance.FreePosition(positionIndex);
+            GameManager_G5.instance.FreePositionG5(positionIndex);
         }
     }
 }

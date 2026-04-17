@@ -877,12 +877,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43456534af469074b87feb4d4e9621a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  score: 0
-  enemyPrefab: {fileID: 19588385245968726, guid: 8ee08d04ad5df46fbb2e97260b63420b, type: 3}
-  scoreText: {fileID: 58499321}
-  gameTime: 60
+  coins: 0
+  coinsToWin: 10
+  timeLeft: 90
   timerText: {fileID: 2040187720}
-  gameOverText: {fileID: 1011077489}
+  coinsText: {fileID: 0}
+  endScreenPanel: {fileID: 0}
+  resultText: {fileID: 0}
 --- !u!4 &1821688552
 Transform:
   m_ObjectHideFlags: 0
@@ -933,8 +934,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Gazeshoot
   gazeTimeRequired: 1
   crosshair: {fileID: 671038971}
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  targetColor: {r: 0, g: 1, b: 0, a: 1}
+  normalColor:
+    r: 1
+    g: 1
+    b: 1
+    a: 1
+  targetColor:
+    r: 0
+    g: 1
+    b: 0
+    a: 1
+  gazeTimer: 0
+  currentTarget: {fileID: 0}
 --- !u!114 &1988607118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1066,6 +1077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MouseLook
   mouseSpeed: 100
+  xRotation: 0
 --- !u!1 &2040187718
 GameObject:
   m_ObjectHideFlags: 0

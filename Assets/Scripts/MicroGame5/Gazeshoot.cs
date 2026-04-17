@@ -35,7 +35,7 @@ public class GazeShoot : MonoBehaviour
 
                     if (gazeTimer >= gazeTimeRequired)
                     {
-                        GameManager.instance.AddScore(1);
+                        GameManager_G5.instance.AddScore(1);
                         Destroy(currentTarget);
                         ResetGaze();
                     }

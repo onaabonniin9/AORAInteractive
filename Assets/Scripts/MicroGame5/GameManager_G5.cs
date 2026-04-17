@@ -138,19 +138,26 @@ public class GameManager_G5 : MonoBehaviour
 
     void EndGame()
     {
-        Debug.Log("FIN DEL JUEGO");
+        bool win = score >= 10;
 
-        if (score >= 10)
+        if (gameOverText != null)
         {
-            gameOverText.text = "¡HAS GANADO!\nPuntuación: " + score;
+            gameOverText.text = win
+                ? "¡HAS GANADO!\nPuntuación: " + score
+                : "HAS PERDIDO\nPuntuación: " + score;
+
+            gameOverText.gameObject.SetActive(true);
+        }
+
+        Time.timeScale = 0f;
+
+        if (win)
+        {
+            GlobalGameManager.instance.WinLevel(score);
         }
         else
         {
-            gameOverText.text = "HAS PERDIDO\nPuntuación: " + score;
+            GlobalGameManager.instance.LoseLevel();
         }
-
-        gameOverText.gameObject.SetActive(true);
-
-        Time.timeScale = 0f;
     }
 }

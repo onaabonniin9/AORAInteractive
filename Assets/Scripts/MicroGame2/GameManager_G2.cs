@@ -58,21 +58,12 @@ public class GameManager_G2 : MonoBehaviour
         {
             timeLeftG2 = 0;
 
-            if (coinsG2 >= coinsToWinG2)
-                WinGameG2();
-            else
-                LoseGameG2();
+            if (coinsG2 >= coinsToWinG2) {
+                EndGameG2(true);;
+            }else{
+                EndGameG2(false);;
+            }
         }
-    }
-
-    void WinGameG2()
-    {
-        EndGameG2(true);
-    }
-
-    void LoseGameG2()
-    {
-        EndGameG2(false);
     }
 
     void EndGameG2(bool win)
@@ -86,11 +77,10 @@ public class GameManager_G2 : MonoBehaviour
             resultTextG2.text = win ? "¡VICTORIA!" : "GAME OVER";
 
         Time.timeScale = 0f;
-    }
 
-    public void RestartGameG2()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (win)
+            GlobalGameManager.instance.WinLevel(coinsG2);
+        else
+            GlobalGameManager.instance.LoseLevel();
     }
 }

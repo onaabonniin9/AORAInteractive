@@ -5,13 +5,14 @@ public class GazeShoot : MonoBehaviour
 {
     public float gazeTimeRequired = 1.0f;
 
-    // 🎯 Crosshair
     public Image crosshair;
     public Color normalColor = Color.white;
     public Color targetColor = Color.green;
 
     private float gazeTimer = 0f;
     private GameObject currentTarget = null;
+
+    private bool hasKilled = false;
 
     void Update()
     {
@@ -25,24 +26,33 @@ public class GazeShoot : MonoBehaviour
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                // 🟢 Apuntando a enemigo
                 crosshair.color = targetColor;
                 crosshair.transform.localScale = Vector3.one * 1.5f;
 
-                if (currentTarget == hit.collider.gameObject)
+                GameObject hitObject = hit.collider.gameObject;
+
+                if (currentTarget == hitObject)
                 {
                     gazeTimer += Time.deltaTime;
 
-                    if (gazeTimer >= gazeTimeRequired)
+                    if (gazeTimer >= gazeTimeRequired && !hasKilled)
                     {
-                        GameManager_G5.instance.AddScoreG5(1);
-                        Destroy(currentTarget);
+                        hasKilled = true;
+
+                        // 🔥 SOLO LLAMAMOS A DIE()
+                        Enemy enemyScript = hit.collider.GetComponentInParent<Enemy>();
+
+                        if (enemyScript != null)
+                        {
+                            enemyScript.Die();
+                        }
+
                         ResetGaze();
                     }
                 }
                 else
                 {
-                    currentTarget = hit.collider.gameObject;
+                    currentTarget = hitObject;
                     gazeTimer = 0f;
                 }
             }
@@ -63,11 +73,11 @@ public class GazeShoot : MonoBehaviour
     {
         gazeTimer = 0f;
         currentTarget = null;
+        hasKilled = false;
     }
 
     void ResetVisual()
     {
-        // ⚪ Estado normal
         crosshair.color = normalColor;
         crosshair.transform.localScale = Vector3.one;
     }

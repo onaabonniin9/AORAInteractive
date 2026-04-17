@@ -16,7 +16,7 @@ public class GameManager_G5 : MonoBehaviour
 
     public TextMeshProUGUI gameOverText;
 
-    // 🆕 Control de posiciones ocupadas
+    // Control de posiciones ocupadas
     private bool[] occupiedPositions;
     private int totalPositions = 12;
 
@@ -30,10 +30,9 @@ public class GameManager_G5 : MonoBehaviour
         UpdateScoreUI();
         currentTime = gameTime;
 
-        // 🆕 Inicializar array de posiciones
         occupiedPositions = new bool[totalPositions];
 
-        // 🔥 SPAWN INICIAL (8 fantasmas)
+        // Spawn inicial
         for (int i = 0; i < 8; i++)
         {
             SpawnEnemy();
@@ -53,7 +52,9 @@ public class GameManager_G5 : MonoBehaviour
             }
 
             int seconds = Mathf.CeilToInt(currentTime);
-            timerText.text = "Tiempo: " + seconds;
+
+            if (timerText != null)
+                timerText.text = "Tiempo: " + seconds;
         }
     }
 
@@ -64,23 +65,29 @@ public class GameManager_G5 : MonoBehaviour
         score += points;
         UpdateScoreUI();
 
-        // 🔁 Cada vez que matas uno → aparece otro
+        // Cada vez que matas uno → aparece otro
         SpawnEnemy();
     }
 
     void UpdateScoreUI()
     {
-        scoreText.text = "Puntos: " + score;
+        if (scoreText != null)
+            scoreText.text = "Puntos: " + score;
     }
 
     void SpawnEnemy()
     {
+        if (enemyPrefab == null)
+        {
+            Debug.LogError("Enemy Prefab no asignado!");
+            return;
+        }
+
         float radius = 5f;
 
-        // 🔍 Buscar posición libre
         int randomIndex = -1;
 
-        for (int i = 0; i < 20; i++) // intentos
+        for (int i = 0; i < 20; i++)
         {
             int index = Random.Range(0, totalPositions);
             if (!occupiedPositions[index])
@@ -90,7 +97,6 @@ public class GameManager_G5 : MonoBehaviour
             }
         }
 
-        // ❗ fallback (por si todas están ocupadas)
         if (randomIndex == -1)
         {
             randomIndex = Random.Range(0, totalPositions);
@@ -107,7 +113,7 @@ public class GameManager_G5 : MonoBehaviour
 
         GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
 
-        // 👻 HACER QUE MIRE A LA CÁMARA
+        // Mirar a la cámara
         if (Camera.main != null)
         {
             Vector3 direction = Camera.main.transform.position - enemy.transform.position;
@@ -119,15 +125,19 @@ public class GameManager_G5 : MonoBehaviour
             }
         }
 
-        // 🆕 Guardar índice en el enemigo
-        Enemy enemyScript = enemy.GetComponent<Enemy>();
+        // 🔥 CORRECCIÓN CLAVE AQUÍ
+        Enemy enemyScript = enemy.GetComponentInChildren<Enemy>();
+
         if (enemyScript != null)
         {
             enemyScript.positionIndex = randomIndex;
         }
+        else
+        {
+            Debug.LogWarning("Enemy script NO encontrado en el prefab");
+        }
     }
 
-    // 🆕 Liberar posición cuando muere
     public void FreePositionG5(int index)
     {
         if (index >= 0 && index < occupiedPositions.Length)
@@ -140,16 +150,19 @@ public class GameManager_G5 : MonoBehaviour
     {
         Debug.Log("FIN DEL JUEGO");
 
-        if (score >= 10)
+        if (gameOverText != null)
         {
-            gameOverText.text = "¡HAS GANADO!\nPuntuación: " + score;
-        }
-        else
-        {
-            gameOverText.text = "HAS PERDIDO\nPuntuación: " + score;
-        }
+            if (score >= 10)
+            {
+                gameOverText.text = "¡HAS GANADO!\nPuntuación: " + score;
+            }
+            else
+            {
+                gameOverText.text = "HAS PERDIDO\nPuntuación: " + score;
+            }
 
-        gameOverText.gameObject.SetActive(true);
+            gameOverText.gameObject.SetActive(true);
+        }
 
         Time.timeScale = 0f;
     }

@@ -1,22 +1,31 @@
 ﻿using UnityEngine;
 
+using UnityEngine;
+
 public class Enemy : MonoBehaviour
 {
-    // 🆕 Guardar la posición que ocupa
     public int positionIndex;
 
-    void OnMouseDown()
-    {
-        GameManager_G5.instance.AddScoreG5(1);
-        Destroy(gameObject);
-    }
+    private bool isDead = false;
 
-    void OnDestroy()
+    public void Die()
     {
-        // 🆕 Liberar la posición cuando muere
-        if (GameManager_G5.instance != null)
-        {
-            GameManager_G5.instance.FreePositionG5(positionIndex);
-        }
+        if (isDead) return; // 🔒 evita doble muerte
+        isDead = true;
+
+        // 🔓 liberar posición
+        GameManager_G5.instance.FreePositionG5(positionIndex);
+
+        // ➕ sumar puntos
+        GameManager_G5.instance.AddScoreG5(1);
+
+        // 🚫 evitar detección
+        gameObject.tag = "Untagged";
+
+        Collider col = GetComponent<Collider>();
+        if (col != null) col.enabled = false;
+
+        // 💀 destruir
+        Destroy(gameObject);
     }
 }

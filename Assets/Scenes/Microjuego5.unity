@@ -848,57 +848,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ee08d04ad5df46fbb2e97260b63420b, type: 3}
---- !u!1 &1386976889
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1386976890}
-  - component: {fileID: 1386976891}
-  m_Layer: 0
-  m_Name: GlobalGameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1386976890
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1386976889}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 34.73326, y: 6.87869, z: 13.06279}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1386976891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1386976889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4c079e34daef43d58515050711906a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GlobalGameManager
-  lastLevelWon: 0
-  currentLevel: 1
-  totalLevels: 5
-  finalScreenPanel: {fileID: 0}
-  finalText: {fileID: 0}
-  finalScoreText: {fileID: 0}
-  totalScore: 0
 --- !u!1 &1821688550
 GameObject:
   m_ObjectHideFlags: 0
@@ -928,12 +877,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43456534af469074b87feb4d4e9621a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  score: 0
-  enemyPrefab: {fileID: 0}
-  scoreText: {fileID: 0}
-  gameTime: 60
+  coins: 0
+  coinsToWin: 10
+  timeLeft: 90
   timerText: {fileID: 2040187720}
-  gameOverText: {fileID: 0}
+  coinsText: {fileID: 0}
+  endScreenPanel: {fileID: 0}
+  resultText: {fileID: 0}
 --- !u!4 &1821688552
 Transform:
   m_ObjectHideFlags: 0
@@ -984,8 +934,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Gazeshoot
   gazeTimeRequired: 1
   crosshair: {fileID: 671038971}
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  targetColor: {r: 0, g: 1, b: 0, a: 1}
+  normalColor:
+    r: 1
+    g: 1
+    b: 1
+    a: 1
+  targetColor:
+    r: 0
+    g: 1
+    b: 0
+    a: 1
+  gazeTimer: 0
+  currentTarget: {fileID: 0}
 --- !u!114 &1988607118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1117,6 +1077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MouseLook
   mouseSpeed: 100
+  xRotation: 0
 --- !u!1 &2040187718
 GameObject:
   m_ObjectHideFlags: 0
@@ -1264,4 +1225,3 @@ SceneRoots:
   - {fileID: 316765821}
   - {fileID: 690000773}
   - {fileID: 1215892674}
-  - {fileID: 1386976890}

@@ -26,7 +26,8 @@ namespace Microjuego3_MGS
             {
                 if (gameManager != null)
                 {
-                    gameManager.RecogerMoneda();
+                    // CAMBIAMOS "RecogerMoneda" por "SumarMoneda"
+                    gameManager.SumarMoneda();
                 }
                 // ¡Destruye la moneda para que desaparezca de la pantalla!
                 Destroy(gameObject);

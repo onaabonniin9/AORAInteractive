@@ -7,6 +7,8 @@ using TMPro;
 /// UIManager - Controla todos los elementos de UI del juego
 /// HUD, pantallas de inicio/fin, animaciones de texto
 /// </summary>
+namespace Microjuego1
+{
 public class UIManager : MonoBehaviour
 {
     [Header("HUD")]
@@ -163,4 +165,5 @@ public class UIManager : MonoBehaviour
         }
         cg.alpha = 1f;
     }
+}
 }

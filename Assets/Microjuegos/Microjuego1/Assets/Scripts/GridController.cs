@@ -6,6 +6,8 @@ using UnityEngine;
 /// GridController - Gestiona el grid 3x3, las posiciones de monedas
 /// y la lógica de selección del jugador
 /// </summary>
+namespace Microjuego1
+{
 public class GridController : MonoBehaviour
 {
     [Header("Grid Setup")]
@@ -106,4 +108,5 @@ public class GridController : MonoBehaviour
 
         return result;
     }
+}
 }

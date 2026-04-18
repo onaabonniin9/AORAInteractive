@@ -6,6 +6,8 @@ using UnityEngine;
 /// GameManager - Controlador principal del microjuego de memoria
 /// Gestiona el flujo completo: rondas, puntuación, temporizador y dificultad
 /// </summary>
+namespace Microjuego1
+{
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -160,4 +162,5 @@ public class GameManager : MonoBehaviour
         uiManager.ShowLoseScreen(score, targetScore, roundNumber);
         HapticFeedback.Failure();
     }
+}
 }

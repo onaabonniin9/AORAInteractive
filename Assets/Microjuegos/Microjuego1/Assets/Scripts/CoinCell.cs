@@ -8,6 +8,8 @@ using UnityEngine.EventSystems;
 /// Gestiona sus estados visuales: idle, mostrando moneda, correcto, incorrecto
 /// Optimizado para touch en iOS con IPointerClickHandler
 /// </summary>
+namespace Microjuego1
+{
 public class CoinCell : MonoBehaviour, IPointerClickHandler
 {
     [Header("Elementos visuales")]
@@ -176,4 +178,5 @@ public class CoinCell : MonoBehaviour, IPointerClickHandler
         }
         transform.localPosition = origin;
     }
+}
 }

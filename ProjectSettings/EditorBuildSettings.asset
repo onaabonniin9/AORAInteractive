@@ -6,8 +6,23 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Microjuego4.unity
+    path: Assets/Scenes/_Core/MainMenu/MenuPrincipal.unity
+    guid: 9451713e9c62ff362850f1eb11b1b22a
+  - enabled: 1
+    path: Assets/Microjuegos/Microjuego1/Scenes/SampleScene.unity
+    guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Microjuegos/Microjuego2/Scenes/Microjuego2.unity
+    guid: 1ef50a3ff343147e38fac8fd4ea00bad
+  - enabled: 1
+    path: Assets/Microjuegos/Microjuego3/Scenes/Microjuego3.unity
+    guid: be71ccf7e786cddc1996a9271ec6075a
+  - enabled: 1
+    path: Assets/Microjuegos/Microjuego4/Scenes/SceneARGame.unity
     guid: 928bdd7cb37efce4b83d02d3953f4062
+  - enabled: 1
+    path: Assets/Microjuegos/Microjuego5/Scenes/Microjuego5.unity
+    guid: 3c7fd09f7123b2443be560b10d724b81
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: ba4b164d6d64940daa5a6006962de2dc, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: b25bcf673401c47f8a517a11bfda26f1, type: 2}

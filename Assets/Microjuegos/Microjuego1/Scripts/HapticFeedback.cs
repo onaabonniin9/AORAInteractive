@@ -1,4 +1,4 @@
-using UnityEngine;
+/* using UnityEngine;
 
 /// <summary>
 /// HapticFeedback - Wrapper para vibración táctil iOS (Taptic Engine)
@@ -75,6 +75,57 @@ public static class HapticFeedback
 #if UNITY_IOS && !UNITY_EDITOR
         _NotificationError();
 #elif UNITY_ANDROID && !UNITY_EDITOR
+        Handheld.Vibrate();
+#else
+        Debug.Log("[Haptic] Failure");
+#endif
+    }
+}
+*/
+
+using UnityEngine;
+
+public static class HapticFeedback
+{
+    public static void Light()
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        Handheld.Vibrate();
+#else
+        Debug.Log("[Haptic] Light");
+#endif
+    }
+
+    public static void Medium()
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        Handheld.Vibrate();
+#else
+        Debug.Log("[Haptic] Medium");
+#endif
+    }
+
+    public static void Heavy()
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        Handheld.Vibrate();
+#else
+        Debug.Log("[Haptic] Heavy");
+#endif
+    }
+
+    public static void Success()
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        Handheld.Vibrate();
+#else
+        Debug.Log("[Haptic] Success");
+#endif
+    }
+
+    public static void Failure()
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
         Handheld.Vibrate();
 #else
         Debug.Log("[Haptic] Failure");

@@ -5,6 +5,8 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 5f;
     public float jumpForce = 7f;
 
+    public MGS_VirtualJoystick joystick;
+
     private Rigidbody rb;
     private bool isGrounded;
 
@@ -20,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     {
         HandleMovement();
         HandleJump();
+
         if (transform.position.y < 1.5f)
         {
             Respawn();
@@ -30,6 +33,12 @@ public class PlayerMovement : MonoBehaviour
     {
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
+
+        if (joystick != null)
+        {
+            moveX += joystick.InputDirection.x;
+            moveZ += joystick.InputDirection.z;
+        }
 
         Vector3 movement = new Vector3(moveX * speed, rb.linearVelocity.y, moveZ * speed);
         rb.linearVelocity = movement;
@@ -43,11 +52,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void JumpButton()
+    {
+        if (isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isGrounded = false;
+        }
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-        isGrounded = true;
+            isGrounded = true;
         }
     }
 
@@ -61,8 +79,8 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Obstacle") || 
-            other.CompareTag("Enemy") || 
+        if (other.CompareTag("Obstacle") ||
+            other.CompareTag("Enemy") ||
             other.CompareTag("KillZone"))
         {
             Respawn();

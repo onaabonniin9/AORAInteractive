@@ -144,6 +144,7 @@ public class G1_GameManager : MonoBehaviour{
         if (timerCoroutine != null) StopCoroutine(timerCoroutine);
         uiManager.ShowWinScreen(score, gameDuration - timeLeft, roundNumber);
         HapticFeedback.Success();
+        GlobalGameManager.instance.WinLevel(score);
     }
 
     // Método público para que otros scripts puedan cambiar el estado
@@ -158,5 +159,6 @@ public class G1_GameManager : MonoBehaviour{
         gridController.DisableInput();
         uiManager.ShowLoseScreen(score, targetScore, roundNumber);
         HapticFeedback.Failure();
+        GlobalGameManager.instance.LoseLevel();
     }
 }

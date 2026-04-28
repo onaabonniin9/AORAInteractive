@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class GameManager_G2 : MonoBehaviour
 {
@@ -23,7 +22,8 @@ public class GameManager_G2 : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
     }
 
     void Update()
@@ -54,20 +54,18 @@ public class GameManager_G2 : MonoBehaviour
     {
         timeLeftG2 -= Time.deltaTime;
 
-        if (timeLeftG2 <= 0)
+        if (timeLeftG2 <= 0f)
         {
-            timeLeftG2 = 0;
+            timeLeftG2 = 0f;
 
-            if (coinsG2 >= coinsToWinG2) {
-                EndGameG2(true);;
-            }else{
-                EndGameG2(false);;
-            }
+            bool win = coinsG2 >= coinsToWinG2;
+            EndGameG2(win);
         }
     }
 
     void EndGameG2(bool win)
     {
+        if (gameEndedG2) return;
         gameEndedG2 = true;
 
         if (endScreenPanelG2 != null)

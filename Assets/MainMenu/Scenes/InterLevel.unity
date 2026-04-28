@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 13576817}
   - component: {fileID: 13576819}
   - component: {fileID: 13576818}
+  - component: {fileID: 13576820}
   m_Layer: 5
   m_Name: MessageText
   m_TagString: Untagged
@@ -176,7 +177,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: PRUEBA
+  m_text: prueba
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -256,6 +257,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 13576816}
   m_CullTransparentMesh: 1
+--- !u!114 &13576820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13576816}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd70783d5ed14358bbf104cb0ef35e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InterLevelUI
+  messageText: {fileID: 0}
+  buttonText: {fileID: 0}
 --- !u!1 &628119128
 GameObject:
   m_ObjectHideFlags: 0
@@ -704,7 +719,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 250, y: 50}
+  m_SizeDelta: {x: 250, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1707598917
 MonoBehaviour:
@@ -750,9 +765,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2031223533}
-        m_TargetAssemblyTypeName: GlobalGameManager, Assembly-CSharp
-        m_MethodName: ContinueGame
+      - m_Target: {fileID: 1983412501}
+        m_TargetAssemblyTypeName: InterLevelUI, Assembly-CSharp
+        m_MethodName: OnButtonPressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -927,7 +942,7 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!1 &2031223530
+--- !u!1 &1983412499
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -935,23 +950,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2031223531}
-  - component: {fileID: 2031223532}
-  - component: {fileID: 2031223533}
+  - component: {fileID: 1983412500}
+  - component: {fileID: 1983412501}
   m_Layer: 0
-  m_Name: InterLevelUI
+  m_Name: InterLevel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2031223531
+--- !u!4 &1983412500
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2031223530}
+  m_GameObject: {fileID: 1983412499}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 34.73326, y: 6.87869, z: 13.06279}
@@ -960,13 +974,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2031223532
+--- !u!114 &1983412501
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2031223530}
+  m_GameObject: {fileID: 1983412499}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5bd70783d5ed14358bbf104cb0ef35e4, type: 3}
@@ -974,25 +988,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InterLevelUI
   messageText: {fileID: 13576818}
   buttonText: {fileID: 1120054624}
-  playerWon: 1
---- !u!114 &2031223533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2031223530}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4c079e34daef43d58515050711906a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GlobalGameManager
-  lastLevelWon: 0
-  currentLevel: 1
-  totalLevels: 5
-  finalScreenPanel: {fileID: 0}
-  finalText: {fileID: 0}
-  totalScore: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1001,4 +996,4 @@ SceneRoots:
   - {fileID: 1854535339}
   - {fileID: 828126491}
   - {fileID: 628119131}
-  - {fileID: 2031223531}
+  - {fileID: 1983412500}

@@ -6,26 +6,35 @@ public class InterLevelUI : MonoBehaviour
     public TextMeshProUGUI messageText;
     public TextMeshProUGUI buttonText;
 
-    public bool playerWon;
-
     void Start()
     {
+        Time.timeScale = 1f;
+
+        if (GlobalGameManager.instance == null)
+        {
+            Debug.LogError("GlobalGameManager NO EXISTE en esta escena");
+            messageText.text = "ERROR DE SISTEMA";
+            buttonText.text = "Volver al menú";
+            return;
+        }
+
         bool playerWon = GlobalGameManager.instance.lastLevelWon;
 
         if (playerWon)
         {
-            messageText.text = "HAS GANADO";
-            buttonText.text = "Siguiente";
+            messageText.text = "¡Microjuego Completado!";
+            buttonText.text = "Siguiente Microjuego";
         }
         else
         {
-            messageText.text = "HAS PERDIDO";
+            messageText.text = "Microjuego NO Superado :(";
             buttonText.text = "Reintentar";
         }
     }
 
     public void OnButtonPressed()
     {
-        GlobalGameManager.instance.ContinueGame();
+        if (GlobalGameManager.instance != null)
+            GlobalGameManager.instance.ContinueGame();
     }
 }

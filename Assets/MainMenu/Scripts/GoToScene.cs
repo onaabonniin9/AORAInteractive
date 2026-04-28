@@ -7,4 +7,9 @@ public class GoToScene : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
+
+    public void StartGame()
+    {
+        GlobalGameManager.instance.StartGame();
+    }
 }

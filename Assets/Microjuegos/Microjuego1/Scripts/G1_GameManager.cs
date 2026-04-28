@@ -19,7 +19,7 @@ public class G1_GameManager : MonoBehaviour{
 
     [Header("Referencias")]
     [SerializeField] private GridController gridController;
-    [SerializeField] private UIManager uiManager;
+    [SerializeField] private G1_UIManager uiManager;
 
     // Estado del juego
     public enum GameState { Idle, Memorizing, Selecting, RoundEnd, Win, Lose }

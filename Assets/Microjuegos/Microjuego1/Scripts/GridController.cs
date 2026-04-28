@@ -31,7 +31,7 @@ public class GridController : MonoBehaviour
         foreach (int i in coinPositions)
             cells[i].ShowCoin();
 
-        G1_GameManager.Instance.GetComponent<UIManager>()?.SetPhaseText("MEMORIZA");
+        G1_GameManager.Instance.GetComponent<G1_UIManager>()?.SetPhaseText("MEMORIZA");
 
         // Ocultar tras el tiempo de memorización
         StartCoroutine(HideCoinsAfterDelay(memorizeTime));

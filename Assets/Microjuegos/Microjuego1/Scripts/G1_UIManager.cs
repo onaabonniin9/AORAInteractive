@@ -7,7 +7,7 @@ using TMPro;
 /// UIManager - Controla todos los elementos de UI del juego
 /// HUD, pantallas de inicio/fin, animaciones de texto
 /// </summary>
-public class UIManager : MonoBehaviour
+public class G1_UIManager : MonoBehaviour
 {
     [Header("HUD")]
     [SerializeField] private TextMeshProUGUI scoreText;

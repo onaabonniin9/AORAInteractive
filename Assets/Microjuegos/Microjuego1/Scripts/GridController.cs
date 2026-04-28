@@ -44,7 +44,7 @@ public class GridController : MonoBehaviour
         foreach (CoinCell cell in cells)
             cell.HideCoin();
 
-        G1_GameManager.Instance.GetComponent<UIManager>()?.SetPhaseText("SELECCIONA");
+        G1_GameManager.Instance.GetComponent<G1_UIManager>()?.SetPhaseText("SELECCIONA");
         inputEnabled = true;
         G1_GameManager.Instance.CurrentState_Set(G1_GameManager.GameState.Selecting);
     }

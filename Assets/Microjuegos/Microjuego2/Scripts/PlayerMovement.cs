@@ -12,10 +12,14 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 spawnPoint;
 
+    private Animator animator;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         spawnPoint = transform.position;
+
+        animator = GetComponentInChildren<Animator>();
     }
 
     void Update()
@@ -42,6 +46,13 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 movement = new Vector3(moveX * speed, rb.linearVelocity.y, moveZ * speed);
         rb.linearVelocity = movement;
+
+        bool isMoving = Mathf.Abs(moveX) > 0.1f || Mathf.Abs(moveZ) > 0.1f;
+
+        if (animator != null)
+        {
+            animator.SetBool("isWalking", isMoving);
+        }
     }
 
     void HandleJump()

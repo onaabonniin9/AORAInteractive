@@ -4,6 +4,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5f;
     public float jumpForce = 7f;
+    public float rotationSpeed = 10f;
 
     public MGS_VirtualJoystick joystick;
 
@@ -27,6 +28,11 @@ public class PlayerMovement : MonoBehaviour
         HandleMovement();
         HandleJump();
 
+        if (animator != null)
+        {
+            animator.SetBool("isGrounded", isGrounded);
+        }
+
         if (transform.position.y < 1.5f)
         {
             Respawn();
@@ -44,14 +50,32 @@ public class PlayerMovement : MonoBehaviour
             moveZ += joystick.InputDirection.z;
         }
 
-        Vector3 movement = new Vector3(moveX * speed, rb.linearVelocity.y, moveZ * speed);
+        Vector3 moveDirection = new Vector3(moveX, 0f, moveZ);
+
+        Vector3 movement = new Vector3(
+            moveDirection.x * speed,
+            rb.linearVelocity.y,
+            moveDirection.z * speed
+        );
+
         rb.linearVelocity = movement;
 
-        bool isMoving = Mathf.Abs(moveX) > 0.1f || Mathf.Abs(moveZ) > 0.1f;
+        bool isMoving = moveDirection.magnitude > 0.01f && isGrounded;
 
         if (animator != null)
         {
             animator.SetBool("isWalking", isMoving);
+        }
+
+        if (isMoving && moveDirection.sqrMagnitude > 0.01f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                rotationSpeed * Time.deltaTime
+            );
         }
     }
 
@@ -59,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            Jump();
         }
     }
 
@@ -67,8 +91,19 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isGrounded = false;
+            Jump();
+        }
+    }
+
+    void Jump()
+    {
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+        isGrounded = false;
+
+        if (animator != null)
+        {
+            animator.SetTrigger("Jump");
         }
     }
 

@@ -5573,7 +5573,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!136 &1787868654
 CapsuleCollider:
@@ -5685,6 +5685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   speed: 5
   jumpForce: 7
+  rotationSpeed: 10
   joystick: {fileID: 979279625}
 --- !u!1 &1831750572
 GameObject:

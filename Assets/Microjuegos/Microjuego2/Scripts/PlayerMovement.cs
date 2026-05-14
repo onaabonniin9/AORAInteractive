@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -15,12 +16,26 @@ public class PlayerMovement : MonoBehaviour
 
     private Animator animator;
 
+    private PlayerAudio playerAudio;
+
+    private bool gameStarted = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         spawnPoint = transform.position;
 
         animator = GetComponentInChildren<Animator>();
+
+        playerAudio = GetComponent<PlayerAudio>();
+
+        StartCoroutine(EnableGameplay());
+    }
+
+    IEnumerator EnableGameplay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        gameStarted = true;
     }
 
     void Update()
@@ -135,6 +150,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Respawn()
     {
+        if (gameStarted && playerAudio != null)
+        {
+            playerAudio.PlayHurtSound();
+        }
+
         transform.position = spawnPoint;
 
         rb.linearVelocity = Vector3.zero;

@@ -21,7 +21,8 @@ public class GlobalGameManager : MonoBehaviour
     [Header("UI Final")]
     public GameObject finalScreenPanel;
     public TextMeshProUGUI finalText;
-    public TextMeshProUGUI finalScoreText;
+    public TextMeshProUGUI finalCoinsText;
+    public TextMeshProUGUI finalMoneyText;
 
     void Awake()
     {
@@ -40,6 +41,8 @@ public class GlobalGameManager : MonoBehaviour
     {
         currentLevel = 1;
         totalScore = 0;
+
+        Time.timeScale = 1f;
         LoadLevel(currentLevel);
     }
 
@@ -88,16 +91,28 @@ public class GlobalGameManager : MonoBehaviour
 
     void ShowFinalScreen()
     {
+        SceneManager.LoadScene("MainMenu");
+
+        StartCoroutine(ShowFinalAfterLoad());
+    }
+
+    IEnumerator ShowFinalAfterLoad()
+    {
+        yield return new WaitForSeconds(0.2f);
+
         if (finalScreenPanel != null)
             finalScreenPanel.SetActive(true);
 
         if (finalText != null)
-            finalText.text = "HAS COMPLETADO TODOS LOS MICROJUEGOS";
+            finalText.text = "¡HAS COMPLETADO TODOS LOS MICROJUEGOS!";
 
-        if (finalScoreText != null)
-            finalScoreText.text =
-                "PUNTUACIÓN TOTAL: " + totalScore +
-                " (€ " + (totalScore * 10000) + ")";
+        if (finalCoinsText != null)
+            finalCoinsText.text =
+                "Monedas: " + totalScore;
+
+        if (finalMoneyText != null)
+            finalMoneyText.text =
+                "Dinero: " + (totalScore * 10000) + " €";
 
         Time.timeScale = 0f;
     }

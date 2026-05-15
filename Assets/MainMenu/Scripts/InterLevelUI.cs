@@ -1,10 +1,14 @@
 using UnityEngine;
-using TMPro;
+using System.Collections;
 
 public class InterLevelUI : MonoBehaviour
 {
-    public TextMeshProUGUI messageText;
-    public TextMeshProUGUI buttonText;
+    public GameObject winScreen;
+    public GameObject loseScreen;
+
+    public GameObject button;
+
+    private bool isLoading = false;
 
     void Start()
     {
@@ -13,28 +17,39 @@ public class InterLevelUI : MonoBehaviour
         if (GlobalGameManager.instance == null)
         {
             Debug.LogError("GlobalGameManager NO EXISTE en esta escena");
-            messageText.text = "ERROR DE SISTEMA";
-            buttonText.text = "Volver al menú";
+
+            winScreen.SetActive(false);
+            loseScreen.SetActive(true);
             return;
         }
 
         bool playerWon = GlobalGameManager.instance.lastLevelWon;
 
-        if (playerWon)
-        {
-            messageText.text = "¡Microjuego Completado!";
-            buttonText.text = "Siguiente Microjuego";
-        }
-        else
-        {
-            messageText.text = "Microjuego NO Superado :(";
-            buttonText.text = "Reintentar";
-        }
+        winScreen.SetActive(playerWon);
+        loseScreen.SetActive(!playerWon);
     }
 
     public void OnButtonPressed()
     {
-        if (GlobalGameManager.instance != null)
+        if (isLoading) return;
+        if (GlobalGameManager.instance == null) return;
+
+        isLoading = true;
+
+        StartCoroutine(HandleButton());
+    }
+
+    IEnumerator HandleButton()
+    {
+        yield return null;
+
+        if (GlobalGameManager.instance.lastLevelWon)
+        {
             GlobalGameManager.instance.ContinueGame();
+        }
+        else
+        {
+            GlobalGameManager.instance.ContinueGame();
+        }
     }
 }

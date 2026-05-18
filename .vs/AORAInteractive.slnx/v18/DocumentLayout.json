@@ -3,20 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\34644\\Documents\\GitHub\\AORAInteractive\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\34644\\documents\\github\\aorainteractive\\assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\34644\\documents\\github\\aorainteractive\\assets\\scripts\\gazeshoot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gazeshoot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\34644\\documents\\github\\aorainteractive\\assets\\scripts\\movimientodecamara.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\movimientodecamara.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|c:\\users\\34644\\documents\\github\\aorainteractive\\assets\\ghostcharacter_free\\scripts\\enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B4CD19DA-EE08-5225-FB19-1D0DFA4113DD}|Assembly-CSharp.csproj|solutionrelative:assets\\ghostcharacter_free\\scripts\\enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\34644\\Documents\\GitHub\\AORAInteractive\\Assets\\Microjuegos\\Microjuego5\\Prefabs\\GhostCharacter_Free\\Scripts\\Enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Microjuegos\\Microjuego5\\Prefabs\\GhostCharacter_Free\\Scripts\\Enemy.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,58 +14,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Enemy.cs",
-              "DocumentMoniker": "C:\\Users\\34644\\Documents\\GitHub\\AORAInteractive\\Assets\\GhostCharacter_Free\\Scripts\\Enemy.cs",
-              "RelativeDocumentMoniker": "Assets\\GhostCharacter_Free\\Scripts\\Enemy.cs",
-              "ToolTip": "C:\\Users\\34644\\Documents\\GitHub\\AORAInteractive\\Assets\\GhostCharacter_Free\\Scripts\\Enemy.cs",
-              "RelativeToolTip": "Assets\\GhostCharacter_Free\\Scripts\\Enemy.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAxwBUAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-17T09:39:08.291Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Movimientodecamara.cs",
-              "DocumentMoniker": "C:\\Users\\34644\\Documents\\GitHub\\AORAInteractive\\Assets\\Scripts\\Movimientodecamara.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Movimientodecamara.cs",
-              "ToolTip": "C:\\Users\\34644\\Documents\\GitHub\\AORAInteractive\\Assets\\Scripts\\Movimientodecamara.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Movimientodecamara.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-16T12:38:20.234Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Gazeshoot.cs",
-              "DocumentMoniker": "C:\\Users\\34644\\Documents\\GitHub\\AORAInteractive\\Assets\\Scripts\\Gazeshoot.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Gazeshoot.cs",
-              "ToolTip": "C:\\Users\\34644\\Documents\\GitHub\\AORAInteractive\\Assets\\Scripts\\Gazeshoot.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Gazeshoot.cs",
-              "ViewState": "AgIAADoAAAAAAAAAAAAqwEkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-15T18:01:36.099Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "GameManager.cs",
-              "DocumentMoniker": "C:\\Users\\34644\\Documents\\GitHub\\AORAInteractive\\Assets\\Scripts\\GameManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\GameManager.cs",
-              "ToolTip": "C:\\Users\\34644\\Documents\\GitHub\\AORAInteractive\\Assets\\Scripts\\GameManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\GameManager.cs",
-              "ViewState": "AgIAAHcAAAAAAAAAAAAswJsAAAABAAAAAAAAAA==",
+              "Title": "Enemy.cs",
+              "DocumentMoniker": "C:\\Users\\34644\\Documents\\GitHub\\AORAInteractive\\Assets\\Microjuegos\\Microjuego5\\Prefabs\\GhostCharacter_Free\\Scripts\\Enemy.cs",
+              "RelativeDocumentMoniker": "Assets\\Microjuegos\\Microjuego5\\Prefabs\\GhostCharacter_Free\\Scripts\\Enemy.cs",
+              "ToolTip": "C:\\Users\\34644\\Documents\\GitHub\\AORAInteractive\\Assets\\Microjuegos\\Microjuego5\\Prefabs\\GhostCharacter_Free\\Scripts\\Enemy.cs",
+              "RelativeToolTip": "Assets\\Microjuegos\\Microjuego5\\Prefabs\\GhostCharacter_Free\\Scripts\\Enemy.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-16T07:47:08.905Z",
+              "WhenOpened": "2026-05-18T15:48:42.7Z",
               "EditorCaption": ""
             }
           ]

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class GameManager_G5 : MonoBehaviour
 {
@@ -16,8 +17,11 @@ public class GameManager_G5 : MonoBehaviour
     public TextMeshProUGUI timerText;
 
     public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI textoInicial;
 
     private bool gameEnded = false;
+    private bool gameStarted = false;
+    private bool playerWon = false;
 
     private List<Vector3> activeEnemyPositions = new List<Vector3>();
 
@@ -36,19 +40,39 @@ public class GameManager_G5 : MonoBehaviour
             gameOverText.gameObject.SetActive(false);
         }
 
+        if (textoInicial != null)
+        {
+            textoInicial.gameObject.SetActive(true);
+        }
+
         UpdateScoreUI();
         UpdateTimerUI();
 
-        // 1 fantasma generado + 1 fantasma manual en escena = 2 simultáneos
-        for (int i = 0; i < 1; i++)
-        {
-            SpawnEnemy();
-        }
+        Time.timeScale = 0f;
     }
 
     void Update()
     {
-        if (gameEnded) return;
+        if (!gameStarted)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                StartGame();
+            }
+
+            return;
+        }
+
+        if (gameEnded)
+        {
+            if (!playerWon && Input.GetKeyDown(KeyCode.Space))
+            {
+                Time.timeScale = 1f;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+
+            return;
+        }
 
         if (currentTime > 0)
         {
@@ -66,9 +90,26 @@ public class GameManager_G5 : MonoBehaviour
         }
     }
 
+    void StartGame()
+    {
+        gameStarted = true;
+        Time.timeScale = 1f;
+
+        if (textoInicial != null)
+        {
+            textoInicial.gameObject.SetActive(false);
+        }
+
+        // 1 fantasma generado + 1 fantasma manual en escena = 2 simultáneos
+        for (int i = 0; i < 1; i++)
+        {
+            SpawnEnemy();
+        }
+    }
+
     public void AddScoreG5(int points)
     {
-        if (gameEnded || currentTime <= 0) return;
+        if (!gameStarted || gameEnded || currentTime <= 0) return;
 
         score += points;
         UpdateScoreUI();
@@ -95,7 +136,7 @@ public class GameManager_G5 : MonoBehaviour
 
     void SpawnEnemy()
     {
-        if (gameEnded || currentTime <= 0) return;
+        if (!gameStarted || gameEnded || currentTime <= 0) return;
         if (enemyPrefab == null) return;
 
         Vector3 spawnPosition = GetRandomSpawnPosition();
@@ -178,14 +219,22 @@ public class GameManager_G5 : MonoBehaviour
         if (gameEnded) return;
 
         gameEnded = true;
-
-        bool win = score >= 10;
+        playerWon = score >= 10;
 
         if (gameOverText != null)
         {
-            gameOverText.text = win
-                ? "¡MICROJUEGO SUPERADO!\nPuntuación: " + score
-                : "MICROJUEGO NO SUPERADO\nPuntuación: " + score;
+            gameOverText.text = playerWon
+                ? "¡MISIÓN COMPLETA!\n\nHas conseguido recuperar otra parte de nuestros fondos.\nAhora toca seguir hasta recuperar el total de lo que nos robaron.\n\nPuntuación: " + score
+                : "PERDIMOS, PERO NO SIGNIFICA QUE NO PODAMOS VOLVER A LUCHAR.\n\nPresiona ESPACIO para volver a intentar recuperar nuestros fondos.\n\nPuntuación: " + score;
+
+            RectTransform rect = gameOverText.GetComponent<RectTransform>();
+
+            if (rect != null)
+            {
+                rect.anchoredPosition = playerWon
+                    ? new Vector2(0, 0)
+                    : new Vector2(0, -90);
+            }
 
             gameOverText.gameObject.SetActive(true);
         }
@@ -202,7 +251,7 @@ public class GameManager_G5 : MonoBehaviour
 
         if (GlobalGameManager.instance != null)
         {
-            if (win)
+            if (playerWon)
             {
                 GlobalGameManager.instance.WinLevel(score);
             }

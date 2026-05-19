@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 37ee54a50b6dd914fbed29973b1c4f0c, type: 2}
+  - {fileID: 2100000, guid: 53745b656283e4b4f96be4adcad4d8a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f2cfd50ebb9d64d9b70ecab3050ea8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObstacleMovement
+  quietecitoChill: 0
   speed: 10
   origin: {fileID: 0}
   lateralMultiplier: 3

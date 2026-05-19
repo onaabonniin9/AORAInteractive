@@ -22,13 +22,20 @@ public class ARPlayerHead : MonoBehaviour
         if (other.CompareTag("ARHazard"))
         {
             UnityEngine.Debug.LogError("* * * * * * * * * * * * * * * * * * * * * * * HAZARD ------------------------");
-            gameMaster.AddHazardCollision();
+            //gameMaster.AddHazardCollision();
+            gameMaster.GetHazardCollision(other.gameObject);
         }
 
         if (other.CompareTag("ARCollectible"))
         {
             UnityEngine.Debug.LogError("* * * * * * * * * * * * * * * * * * * * * * * COLLECTIBLE ------------------------");
             gameMaster.CollectibleAdd(other.gameObject);
+        }
+
+        if (other.CompareTag("ARBonus"))
+        {
+            UnityEngine.Debug.LogError("* * * * * * * * * * * * * * * * * * * * * * * BONUS ------------------------");
+            gameMaster.GetBonus(other.gameObject);
         }
     }
 
@@ -38,7 +45,7 @@ public class ARPlayerHead : MonoBehaviour
         if (other.CompareTag("ARHazard"))
         {
             UnityEngine.Debug.LogError("* * * * * * * * * * * * * * * * * * * * * * * HAZARD EXIT 888888888888888888 - - - - - ");
-            gameMaster.RemoveHazardCollision();
+            //gameMaster.RemoveHazardCollision();
         }
     }
 }

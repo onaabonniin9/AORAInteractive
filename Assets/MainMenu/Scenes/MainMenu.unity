@@ -203,7 +203,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 321304371}
-  - component: {fileID: 321304370}
+  - component: {fileID: 321304372}
   m_Layer: 0
   m_Name: MainMenuManager
   m_TagString: Untagged
@@ -211,21 +211,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &321304370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 321304369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a06f3ec62c16d4a9f9916200f8b9edb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MainMenuIntro
-  splashImage: {fileID: 179998080}
-  mainMenuImage: {fileID: 937700973}
-  splashDuration: 3
 --- !u!4 &321304371
 Transform:
   m_ObjectHideFlags: 0
@@ -241,6 +226,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &321304372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321304369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb12e97dada2f4d93bc821545a0686b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainMenuController
+  splashImage: {fileID: 179998080}
+  mainMenuImage: {fileID: 937700973}
+  splashDuration: 3
+  finalScreenPanel: {fileID: 1596755984}
+  finalText: {fileID: 0}
+  finalCoinsText: {fileID: 1953756801}
+  finalMoneyText: {fileID: 780064052}
 --- !u!1 &340245870
 GameObject:
   m_ObjectHideFlags: 0
@@ -1031,10 +1035,7 @@ MonoBehaviour:
   currentLevel: 1
   totalLevels: 5
   totalScore: 0
-  finalScreenPanel: {fileID: 1596755984}
-  finalText: {fileID: 0}
-  finalCoinsText: {fileID: 1953756801}
-  finalMoneyText: {fileID: 780064052}
+  gameCompleted: 0
 --- !u!1 &1596755984
 GameObject:
   m_ObjectHideFlags: 0

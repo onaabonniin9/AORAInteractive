@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
 using System.Collections;
 
 public class GlobalGameManager : MonoBehaviour
@@ -17,12 +16,8 @@ public class GlobalGameManager : MonoBehaviour
 
     [Header("Puntuación global")]
     public int totalScore = 0;
-
-    [Header("UI Final")]
-    public GameObject finalScreenPanel;
-    public TextMeshProUGUI finalText;
-    public TextMeshProUGUI finalCoinsText;
-    public TextMeshProUGUI finalMoneyText;
+    
+    public bool gameCompleted = false; 
 
     void Awake()
     {
@@ -41,6 +36,7 @@ public class GlobalGameManager : MonoBehaviour
     {
         currentLevel = 1;
         totalScore = 0;
+        gameCompleted = false;
 
         Time.timeScale = 1f;
         LoadLevel(currentLevel);
@@ -49,7 +45,6 @@ public class GlobalGameManager : MonoBehaviour
     public void WinLevel(int levelScore)
     {
         totalScore += levelScore;
-
         lastLevelWon = true;
         retryCurrentLevel = false;
 
@@ -68,7 +63,6 @@ public class GlobalGameManager : MonoBehaviour
     {
         lastLevelWon = false;
         retryCurrentLevel = true;
-
         StartCoroutine(LoadInterLevel());
     }
 
@@ -91,29 +85,8 @@ public class GlobalGameManager : MonoBehaviour
 
     void ShowFinalScreen()
     {
+        gameCompleted = true;
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
-
-        StartCoroutine(ShowFinalAfterLoad());
-    }
-
-    IEnumerator ShowFinalAfterLoad()
-    {
-        yield return new WaitForSeconds(0.2f);
-
-        if (finalScreenPanel != null)
-            finalScreenPanel.SetActive(true);
-
-        if (finalText != null)
-            finalText.text = "¡HAS COMPLETADO TODOS LOS MICROJUEGOS!";
-
-        if (finalCoinsText != null)
-            finalCoinsText.text =
-                "Monedas: " + totalScore;
-
-        if (finalMoneyText != null)
-            finalMoneyText.text =
-                "Dinero: " + (totalScore * 10000) + " €";
-
-        Time.timeScale = 0f;
     }
 }

@@ -5,16 +5,22 @@ public class GazeShoot : MonoBehaviour
 {
     public float gazeTimeRequired = 1.0f;
 
-    // 🎯 Crosshair
+    // Crosshair
     public Image crosshair;
     public Color normalColor = Color.white;
     public Color targetColor = Color.green;
+
+    // Sonido de disparo
+    public AudioClip shootClip;
+    public float shootVolume = 0.5f;
 
     private float gazeTimer = 0f;
     private GameObject currentTarget = null;
 
     void Update()
     {
+        if (Time.timeScale == 0f) return;
+
         Ray ray = Camera.main.ScreenPointToRay(
             new Vector3(Screen.width / 2, Screen.height / 2, 0)
         );
@@ -25,9 +31,11 @@ public class GazeShoot : MonoBehaviour
         {
             if (hit.collider.CompareTag("Enemy"))
             {
-                // 🟢 Apuntando a enemigo
-                crosshair.color = targetColor;
-                crosshair.transform.localScale = Vector3.one * 1.5f;
+                if (crosshair != null)
+                {
+                    crosshair.color = targetColor;
+                    crosshair.transform.localScale = Vector3.one * 1.5f;
+                }
 
                 if (currentTarget == hit.collider.gameObject)
                 {
@@ -35,8 +43,16 @@ public class GazeShoot : MonoBehaviour
 
                     if (gazeTimer >= gazeTimeRequired)
                     {
-                        GameManager_G5.instance.AddScoreG5(1);
-                        Destroy(currentTarget);
+                        PlayShootSound();
+
+                        Enemy enemy = currentTarget.GetComponent<Enemy>();
+
+                        if (enemy != null)
+                        {
+                            enemy.Die();
+                        }
+
+                        ResetVisual();
                         ResetGaze();
                     }
                 }
@@ -59,6 +75,14 @@ public class GazeShoot : MonoBehaviour
         }
     }
 
+    void PlayShootSound()
+    {
+        if (shootClip != null && Camera.main != null)
+        {
+            AudioSource.PlayClipAtPoint(shootClip, Camera.main.transform.position, shootVolume);
+        }
+    }
+
     void ResetGaze()
     {
         gazeTimer = 0f;
@@ -67,8 +91,10 @@ public class GazeShoot : MonoBehaviour
 
     void ResetVisual()
     {
-        // ⚪ Estado normal
-        crosshair.color = normalColor;
-        crosshair.transform.localScale = Vector3.one;
+        if (crosshair != null)
+        {
+            crosshair.color = normalColor;
+            crosshair.transform.localScale = Vector3.one;
+        }
     }
 }

@@ -47,6 +47,7 @@ public class ARGameMaster : MonoBehaviour
 
     private float timeLeft;
     private bool gameRunning = false;
+    private bool waitingContinue = false;
     private float lateralMul = 3f;
 
     private int hazardCollisionCounter = 0;
@@ -92,13 +93,16 @@ public class ARGameMaster : MonoBehaviour
         menuAudio.Play();
         gameAudio.Stop();
         currentHealth = 100f;
-        foreach (GameObject go in GameObject.FindGameObjectsWithTag("ARHazard")) Destroy(go);
-        foreach (GameObject go in GameObject.FindGameObjectsWithTag("ARCollectible")) Destroy(go);
-        foreach (GameObject go in GameObject.FindGameObjectsWithTag("ARBonus")) Destroy(go);
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("ARHazard"))
+            Destroy(go);
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("ARCollectible"))
+            Destroy(go);
+        foreach (GameObject go in GameObject.FindGameObjectsWithTag("ARBonus"))
+            Destroy(go);
         timeLeft = levelDuration;
         gameRunning = false;
+        waitingContinue = true;
         CancelInvoke();
-        WinLevel();
     }
 
     public void SalirPartida()
@@ -435,6 +439,7 @@ public class ARGameMaster : MonoBehaviour
         gameRunning = false;
         CancelInvoke();
         textMotivoDerrota.text = motivo;
+        GlobalGameManager.instance.LoseLevel();
     }
 
     private void WinLevel()
@@ -444,12 +449,20 @@ public class ARGameMaster : MonoBehaviour
 
         Debug.Log("¡HAS GANADO!");
 
-        GlobalGameManager.instance.WinLevel(coins);
+        waitingContinue = true;
     }
 
     public void RecargarEscena()
     {
-        // Por si cosas raras al final pongo esto, es un poco cutre pero meh...
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if (waitingContinue)
+        {
+            waitingContinue = false;
+
+            GlobalGameManager.instance.WinLevel(coins);
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }

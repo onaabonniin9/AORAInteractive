@@ -1,33 +1,34 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 
 public class GameManager_G5 : MonoBehaviour
 {
     public static GameManager_G5 instance;
 
+    [Header("Game State")]
     public int score = 0;
-    public GameObject enemyPrefab;
-
-    public TextMeshProUGUI scoreText;
-
+    public int scoreToWin = 10; 
     public float gameTime = 60f;
     private float currentTime;
-    public TextMeshProUGUI timerText;
-
-    public TextMeshProUGUI gameOverText;
-    public TextMeshProUGUI textoInicial;
-
+    
     private bool gameEnded = false;
     private bool gameStarted = false;
-    private bool playerWon = false;
 
+    [Header("UI In-Game")]
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI timerText;
+    public TextMeshProUGUI textoInicial;
+
+    [Header("Enemies")]
+    public GameObject enemyPrefab;
     private List<Vector3> activeEnemyPositions = new List<Vector3>();
 
     void Awake()
     {
-        instance = this;
+        if (instance == null) instance = this;
+        else Destroy(gameObject);
+        
         Time.timeScale = 1f;
     }
 
@@ -35,20 +36,13 @@ public class GameManager_G5 : MonoBehaviour
     {
         currentTime = gameTime;
 
-        if (gameOverText != null)
-        {
-            gameOverText.gameObject.SetActive(false);
-        }
-
         if (textoInicial != null)
-        {
             textoInicial.gameObject.SetActive(true);
-        }
 
         UpdateScoreUI();
         UpdateTimerUI();
 
-        Time.timeScale = 0f;
+        Time.timeScale = 0f; 
     }
 
     void Update()
@@ -56,24 +50,17 @@ public class GameManager_G5 : MonoBehaviour
         if (!gameStarted)
         {
             if (Input.GetKeyDown(KeyCode.Space))
-            {
                 StartGame();
-            }
-
             return;
         }
 
-        if (gameEnded)
-        {
-            if (!playerWon && Input.GetKeyDown(KeyCode.Space))
-            {
-                Time.timeScale = 1f;
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            }
+        if (gameEnded) return;
 
-            return;
-        }
+        HandleTimer();
+    }
 
+    void HandleTimer()
+    {
         if (currentTime > 0)
         {
             currentTime -= Time.deltaTime;
@@ -83,10 +70,11 @@ public class GameManager_G5 : MonoBehaviour
                 currentTime = 0;
                 UpdateTimerUI();
                 EndGame();
-                return;
             }
-
-            UpdateTimerUI();
+            else
+            {
+                UpdateTimerUI();
+            }
         }
     }
 
@@ -96,15 +84,9 @@ public class GameManager_G5 : MonoBehaviour
         Time.timeScale = 1f;
 
         if (textoInicial != null)
-        {
             textoInicial.gameObject.SetActive(false);
-        }
 
-        // 1 fantasma generado + 1 fantasma manual en escena = 2 simultáneos
-        for (int i = 0; i < 1; i++)
-        {
-            SpawnEnemy();
-        }
+        SpawnEnemy();
     }
 
     public void AddScoreG5(int points)
@@ -120,18 +102,13 @@ public class GameManager_G5 : MonoBehaviour
     void UpdateScoreUI()
     {
         if (scoreText != null)
-        {
             scoreText.text = "Puntos: " + score;
-        }
     }
 
     void UpdateTimerUI()
     {
         if (timerText != null)
-        {
-            int seconds = Mathf.CeilToInt(currentTime);
-            timerText.text = "Tiempo: " + seconds;
-        }
+            timerText.text = "Tiempo: " + Mathf.CeilToInt(currentTime);
     }
 
     void SpawnEnemy()
@@ -140,7 +117,6 @@ public class GameManager_G5 : MonoBehaviour
         if (enemyPrefab == null) return;
 
         Vector3 spawnPosition = GetRandomSpawnPosition();
-
         GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
 
         activeEnemyPositions.Add(spawnPosition);
@@ -151,9 +127,7 @@ public class GameManager_G5 : MonoBehaviour
             direction.y = 0;
 
             if (direction != Vector3.zero)
-            {
                 enemy.transform.rotation = Quaternion.LookRotation(direction);
-            }
         }
     }
 
@@ -163,27 +137,25 @@ public class GameManager_G5 : MonoBehaviour
         float maxRadius = 4.4f;
         float minHeight = 0.7f;
         float maxHeight = 1.6f;
-
         float minimumDistanceBetweenEnemies = 1.2f;
 
         Vector3 spawnPosition = Vector3.zero;
 
         for (int i = 0; i < 30; i++)
         {
-            float randomAngle = Random.Range(0f, 360f);
-            float randomRadius = Random.Range(minRadius, maxRadius);
+            float angle = Random.Range(0f, 360f);
+            float radius = Random.Range(minRadius, maxRadius);
 
-            float x = Mathf.Sin(randomAngle * Mathf.Deg2Rad) * randomRadius;
-            float z = Mathf.Cos(randomAngle * Mathf.Deg2Rad) * randomRadius;
+            float x = Mathf.Sin(angle * Mathf.Deg2Rad) * radius;
+            float z = Mathf.Cos(angle * Mathf.Deg2Rad) * radius;
             float y = Random.Range(minHeight, maxHeight);
 
             spawnPosition = new Vector3(x, y, z);
-
             bool tooClose = false;
 
-            foreach (Vector3 existingPosition in activeEnemyPositions)
+            foreach (Vector3 existing in activeEnemyPositions)
             {
-                if (Vector3.Distance(spawnPosition, existingPosition) < minimumDistanceBetweenEnemies)
+                if (Vector3.Distance(spawnPosition, existing) < minimumDistanceBetweenEnemies)
                 {
                     tooClose = true;
                     break;
@@ -191,9 +163,7 @@ public class GameManager_G5 : MonoBehaviour
             }
 
             if (!tooClose)
-            {
                 return spawnPosition;
-            }
         }
 
         return spawnPosition;
@@ -202,65 +172,38 @@ public class GameManager_G5 : MonoBehaviour
     public void FreePositionG5(int index)
     {
         activeEnemyPositions.Clear();
-
         Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
 
         foreach (Enemy enemy in enemies)
         {
             if (enemy != null)
-            {
                 activeEnemyPositions.Add(enemy.transform.position);
-            }
         }
     }
 
     void EndGame()
     {
         if (gameEnded) return;
-
         gameEnded = true;
-        playerWon = score >= 10;
 
-        if (gameOverText != null)
-        {
-            gameOverText.text = playerWon
-                ? "¡MISIÓN COMPLETA!\n\nHas conseguido recuperar otra parte de nuestros fondos.\nAhora toca seguir hasta recuperar el total de lo que nos robaron.\n\nPuntuación: " + score
-                : "PERDIMOS, PERO NO SIGNIFICA QUE NO PODAMOS VOLVER A LUCHAR.\n\nPresiona ESPACIO para volver a intentar recuperar nuestros fondos.\n\nPuntuación: " + score;
-
-            RectTransform rect = gameOverText.GetComponent<RectTransform>();
-
-            if (rect != null)
-            {
-                rect.anchoredPosition = playerWon
-                    ? new Vector2(0, 0)
-                    : new Vector2(0, -90);
-            }
-
-            gameOverText.gameObject.SetActive(true);
-        }
+        bool playerWon = score >= scoreToWin;
 
         Enemy[] enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+        foreach (Enemy e in enemies)
+            Destroy(e.gameObject);
 
-        foreach (Enemy enemy in enemies)
-        {
-            if (enemy != null)
-            {
-                Destroy(enemy.gameObject);
-            }
-        }
+        Time.timeScale = 0f;
 
         if (GlobalGameManager.instance != null)
         {
             if (playerWon)
-            {
                 GlobalGameManager.instance.WinLevel(score);
-            }
             else
-            {
                 GlobalGameManager.instance.LoseLevel();
-            }
         }
-
-        Time.timeScale = 0f;
+        else
+        {
+            Debug.LogWarning("GlobalGameManager no detectado.");
+        }
     }
 }

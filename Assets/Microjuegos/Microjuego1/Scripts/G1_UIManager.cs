@@ -10,7 +10,7 @@ using TMPro;
 
 namespace Microjuego1  // ← exactamente igual
 {
-    public class UIManager : MonoBehaviour
+    public class G1_UIManager : MonoBehaviour
     {
         [Header("HUD")]
         [SerializeField] private TextMeshProUGUI scoreText;
@@ -45,9 +45,9 @@ namespace Microjuego1  // ← exactamente igual
 
         void Start()
         {
-            startButton.onClick.AddListener(() => GameManager.Instance.StartGame());
-            winRetryButton.onClick.AddListener(() => GameManager.Instance.StartGame());
-            loseRetryButton.onClick.AddListener(() => GameManager.Instance.StartGame());
+            startButton.onClick.AddListener(() => G1_GameManager.Instance.StartGame());
+            winRetryButton.onClick.AddListener(() => G1_GameManager.Instance.StartGame());
+            loseRetryButton.onClick.AddListener(() => G1_GameManager.Instance.StartGame());
         }
 
         public void ShowStartScreen()

@@ -34,7 +34,7 @@ namespace Microjuego1
             foreach (int i in coinPositions)
                 cells[i].ShowCoin();
 
-            GameManager.Instance.GetComponent<UIManager>()?.SetPhaseText("MEMORIZA");
+            G1_GameManager.Instance.GetComponent<G1_UIManager>()?.SetPhaseText("MEMORIZA");
 
             // Ocultar tras el tiempo de memorización
             StartCoroutine(HideCoinsAfterDelay(memorizeTime));
@@ -47,9 +47,9 @@ namespace Microjuego1
             foreach (CoinCell cell in cells)
                 cell.HideCoin();
 
-            GameManager.Instance.GetComponent<UIManager>()?.SetPhaseText("SELECCIONA");
+            G1_GameManager.Instance.GetComponent<G1_UIManager>()?.SetPhaseText("SELECCIONA");
             inputEnabled = true;
-            GameManager.Instance.CurrentState_Set(GameManager.GameState.Selecting);
+            G1_GameManager.Instance.CurrentState_Set(G1_GameManager.GameState.Selecting);
         }
 
         public void OnCellTapped(int cellIndex)
@@ -68,19 +68,19 @@ namespace Microjuego1
             if (isCorrect)
             {
                 cells[cellIndex].ShowCorrect();
-                GameManager.Instance.OnCoinCorrect();
+                G1_GameManager.Instance.OnCoinCorrect();
             }
             else
             {
                 cells[cellIndex].ShowWrong();
-                GameManager.Instance.OnCoinWrong();
+                G1_GameManager.Instance.OnCoinWrong();
             }
 
             // Si ya se han seleccionado todas las posiciones de monedas
             if (selectedCount >= coinPositions.Count)
             {
                 inputEnabled = false;
-                GameManager.Instance.OnRoundComplete();
+                G1_GameManager.Instance.OnRoundComplete();
             }
         }
 

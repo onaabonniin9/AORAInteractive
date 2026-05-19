@@ -9,9 +9,9 @@ using UnityEngine;
 
 namespace Microjuego1
 {
-    public class GameManager : MonoBehaviour
+    public class G1_GameManager : MonoBehaviour
     {
-        public static GameManager Instance { get; private set; }
+        public static G1_GameManager Instance { get; private set; }
         [Header("Audio")]
         [SerializeField] private AudioSource audioSource;
         [SerializeField] private AudioClip sonidoRonda;
@@ -25,7 +25,7 @@ namespace Microjuego1
 
         [Header("Referencias")]
         [SerializeField] private GridController gridController;
-        [SerializeField] private UIManager uiManager;
+        [SerializeField] private G1_UIManager uiManager;
 
         // Estado del juego
         public enum GameState { Idle, Memorizing, Selecting, RoundEnd, Win, Lose }

@@ -1,12 +1,15 @@
-/* using UnityEngine;
+using UnityEngine;
 
 /// <summary>
 /// HapticFeedback - Wrapper para vibración táctil iOS (Taptic Engine)
 /// Usa iOS native haptics si está disponible, fallback a Handheld.Vibrate en Android
 /// Para iOS necesita: Settings > Player > Other Settings > Allow 'unsafe' Code = true
 /// </summary>
-public static class HapticFeedback
+
+namespace Microjuego1
 {
+    public static class HapticFeedback
+    {
 #if UNITY_IOS && !UNITY_EDITOR
     // Importar funciones nativas de iOS via DllImport
     [System.Runtime.InteropServices.DllImport("__Internal")]
@@ -21,114 +24,64 @@ public static class HapticFeedback
     private static extern void _NotificationError();
 #endif
 
-    /// <summary>Toque suave - para aciertos individuales</summary>
-    public static void Light()
-    {
+        /// <summary>Toque suave - para aciertos individuales</summary>
+        public static void Light()
+        {
 #if UNITY_IOS && !UNITY_EDITOR
         _ImpactLight();
 #elif UNITY_ANDROID && !UNITY_EDITOR
         Handheld.Vibrate();
 #else
-        Debug.Log("[Haptic] Light");
+            Debug.Log("[Haptic] Light");
 #endif
-    }
+        }
 
-    /// <summary>Toque medio</summary>
-    public static void Medium()
-    {
+        /// <summary>Toque medio</summary>
+        public static void Medium()
+        {
 #if UNITY_IOS && !UNITY_EDITOR
         _ImpactMedium();
 #elif UNITY_ANDROID && !UNITY_EDITOR
         Handheld.Vibrate();
 #else
-        Debug.Log("[Haptic] Medium");
+            Debug.Log("[Haptic] Medium");
 #endif
-    }
+        }
 
-    /// <summary>Toque fuerte - para errores</summary>
-    public static void Heavy()
-    {
+        /// <summary>Toque fuerte - para errores</summary>
+        public static void Heavy()
+        {
 #if UNITY_IOS && !UNITY_EDITOR
         _ImpactHeavy();
 #elif UNITY_ANDROID && !UNITY_EDITOR
         Handheld.Vibrate();
 #else
-        Debug.Log("[Haptic] Heavy");
+            Debug.Log("[Haptic] Heavy");
 #endif
-    }
+        }
 
-    /// <summary>Notificación de éxito - para victoria</summary>
-    public static void Success()
-    {
+        /// <summary>Notificación de éxito - para victoria</summary>
+        public static void Success()
+        {
 #if UNITY_IOS && !UNITY_EDITOR
         _NotificationSuccess();
 #elif UNITY_ANDROID && !UNITY_EDITOR
         Handheld.Vibrate();
 #else
-        Debug.Log("[Haptic] Success");
+            Debug.Log("[Haptic] Success");
 #endif
-    }
+        }
 
-    /// <summary>Notificación de error - para derrota</summary>
-    public static void Failure()
-    {
+        /// <summary>Notificación de error - para derrota</summary>
+        public static void Failure()
+        {
 #if UNITY_IOS && !UNITY_EDITOR
         _NotificationError();
 #elif UNITY_ANDROID && !UNITY_EDITOR
         Handheld.Vibrate();
 #else
-        Debug.Log("[Haptic] Failure");
+            Debug.Log("[Haptic] Failure");
 #endif
-    }
-}
-*/
-
-using UnityEngine;
-
-public static class HapticFeedback
-{
-    public static void Light()
-    {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        Handheld.Vibrate();
-#else
-        Debug.Log("[Haptic] Light");
-#endif
-    }
-
-    public static void Medium()
-    {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        Handheld.Vibrate();
-#else
-        Debug.Log("[Haptic] Medium");
-#endif
-    }
-
-    public static void Heavy()
-    {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        Handheld.Vibrate();
-#else
-        Debug.Log("[Haptic] Heavy");
-#endif
-    }
-
-    public static void Success()
-    {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        Handheld.Vibrate();
-#else
-        Debug.Log("[Haptic] Success");
-#endif
-    }
-
-    public static void Failure()
-    {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        Handheld.Vibrate();
-#else
-        Debug.Log("[Haptic] Failure");
-#endif
+        }
     }
 }

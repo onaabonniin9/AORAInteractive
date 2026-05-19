@@ -1,2 +1,15 @@
 fileFormatVersion: 2
 guid: ce53ec97b565cb84d83025902bf7537d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - audioSource: {instanceID: 0}
+  - sonidoRonda: {fileID: 8300000, guid: b69a4154c108d634db37a7b44707292f, type: 3}
+  - gridController: {instanceID: 0}
+  - uiManager: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

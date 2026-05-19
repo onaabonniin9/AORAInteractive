@@ -49,8 +49,12 @@ public class GameManager_G5 : MonoBehaviour
     {
         if (!gameStarted)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            bool isTouchingScreen = Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began;
+            
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || isTouchingScreen)
+            {
                 StartGame();
+            }
             return;
         }
 

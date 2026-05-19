@@ -316,7 +316,8 @@ MonoBehaviour:
   m_text: "RECUPERA TUS MONEDAS\r\nNuestros enemigos han embrujado parte de nuestros
     fondos, escondiendo cada una de nuestras monedas tras un fantasma en una lejana
     cueva.\nElimina los m\xE1ximos posibles para recuperar los fondos del estudio.\r\nConsigue
-    al menos 10 puntos antes de que acabe el tiempo.\r\n\r\nPulsa ESPACIO para empezar"
+    al menos 10 puntos antes de que acabe el tiempo.\r\n\r\nPulsa ESPACIO o en la
+    pantalla para empezar"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1092,12 +1093,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   score: 0
-  enemyPrefab: {fileID: 19588385245968726, guid: 8ee08d04ad5df46fbb2e97260b63420b, type: 3}
-  scoreText: {fileID: 58499321}
+  scoreToWin: 10
   gameTime: 60
+  scoreText: {fileID: 58499321}
   timerText: {fileID: 2040187720}
-  gameOverText: {fileID: 1011077489}
   textoInicial: {fileID: 169321204}
+  enemyPrefab: {fileID: 19588385245968726, guid: 8ee08d04ad5df46fbb2e97260b63420b, type: 3}
 --- !u!4 &1821688552
 Transform:
   m_ObjectHideFlags: 0

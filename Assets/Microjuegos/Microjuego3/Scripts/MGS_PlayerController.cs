@@ -10,16 +10,18 @@ namespace Microjuego3_MGS
 
         [Header("Controles Móviles")]
         public MGS_VirtualJoystick joystick;
-        private bool modoSigiloActivo = false; // Se activa desde el botón táctil
+        private bool modoSigiloActivo = false;
 
         private float velocidadActual;
         private Rigidbody rb;
         private Vector3 inputMovimiento;
+        private Vector3 posicionInicial; // Aquí guardamos dónde empieza el nivel
 
         void Start()
         {
             rb = GetComponent<Rigidbody>();
             velocidadActual = velocidadNormal;
+            posicionInicial = transform.position; // Guarda el (0, 1, 0) o donde lo pongas al inicio
         }
 
         void Update()
@@ -27,7 +29,6 @@ namespace Microjuego3_MGS
             float movX = 0f;
             float movZ = 0f;
 
-            // Prioridad al Joystick Táctil. Si no se usa, miramos el teclado (PC).
             if (joystick != null && joystick.InputVector != Vector2.zero)
             {
                 movX = joystick.InputVector.x;
@@ -41,16 +42,16 @@ namespace Microjuego3_MGS
 
             inputMovimiento = new Vector3(movX, 0f, movZ).normalized;
 
-            // Sigilo táctil o barra espaciadora
+            // SISTEMA DE AGACHADO (Reduce la escala Y a la mitad)
             if (modoSigiloActivo || Input.GetKey(KeyCode.Space))
             {
                 velocidadActual = velocidadSigilo;
-                transform.localScale = new Vector3(1f, 0.5f, 1f);
+                transform.localScale = new Vector3(1f, 0.5f, 1f); 
             }
             else
             {
                 velocidadActual = velocidadNormal;
-                transform.localScale = new Vector3(1f, 1f, 1f);
+                transform.localScale = new Vector3(1f, 1f, 1f); 
             }
         }
 
@@ -59,8 +60,24 @@ namespace Microjuego3_MGS
             rb.MovePosition(rb.position + inputMovimiento * velocidadActual * Time.fixedDeltaTime);
         }
 
-        // Estas funciones las llamará el Botón de la UI
-        public void ActivarSigilo() { modoSigiloActivo = true; }
-        public void DesactivarSigilo() { modoSigiloActivo = false; }
+        // Esta función la llamaremos desde el Botón de la UI
+        public void ToggleCrouch() 
+        { 
+            modoSigiloActivo = !modoSigiloActivo; 
+        }
+
+        public void VolverAlInicio()
+        {
+            transform.position = posicionInicial;
+        }
+
+        // Si choca con un láser (KillZone) o Dron (Enemy), vuelve al inicio
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("KillZone") || other.CompareTag("Enemy"))
+            {
+                VolverAlInicio();
+            }
+        }
     }
 }

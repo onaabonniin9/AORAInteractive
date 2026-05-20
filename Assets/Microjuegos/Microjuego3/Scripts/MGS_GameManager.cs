@@ -58,6 +58,16 @@ namespace Microjuego3_MGS
             monedasRecogidas++;
             ActualizarTextoMonedas();
 
+            // NUEVO: Si tenemos exactamente 9 monedas, buscamos la puerta y la abrimos
+            if (monedasRecogidas == 9)
+            {
+                MGS_Door puerta = Object.FindFirstObjectByType<MGS_Door>();
+                if (puerta != null)
+                {
+                    puerta.AbrirPuerta();
+                }
+            }
+
             // Comprobar si hemos recogido todas
             if (monedasRecogidas >= totalMonedasNivel)
             {
@@ -77,7 +87,6 @@ namespace Microjuego3_MGS
             textoTiempo.color = Color.green;
             Time.timeScale = 0f; // Congela el juego
             if (botonReiniciar != null) botonReiniciar.SetActive(true); // Muestra el botón
-            GlobalGameManager.instance.WinLevel(monedasRecogidas);
         }
 
         public void PerderJuego()
@@ -87,15 +96,13 @@ namespace Microjuego3_MGS
             textoTiempo.color = Color.red;
             Time.timeScale = 0f; // Congela el juego
             if (botonReiniciar != null) botonReiniciar.SetActive(true); // Muestra el botón
-            GlobalGameManager.instance.LoseLevel();
         }
 
-         public void ReiniciarJuego()
+        public void ReiniciarJuego()
         {
-            Time.timeScale = 1f;
-            UnityEngine.SceneManagement.SceneManager.LoadScene(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
-            );
+            Time.timeScale = 1f; // ¡MUY IMPORTANTE! Descongelar antes de reiniciar
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+
     }
 }

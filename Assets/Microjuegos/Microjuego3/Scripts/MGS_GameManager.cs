@@ -58,6 +58,16 @@ namespace Microjuego3_MGS
             monedasRecogidas++;
             ActualizarTextoMonedas();
 
+            // NUEVO: Si tenemos exactamente 9 monedas, buscamos la puerta y la abrimos
+            if (monedasRecogidas == 9)
+            {
+                MGS_Door puerta = Object.FindFirstObjectByType<MGS_Door>();
+                if (puerta != null)
+                {
+                    puerta.AbrirPuerta();
+                }
+            }
+
             // Comprobar si hemos recogido todas
             if (monedasRecogidas >= totalMonedasNivel)
             {
@@ -93,5 +103,6 @@ namespace Microjuego3_MGS
             Time.timeScale = 1f; // ¡MUY IMPORTANTE! Descongelar antes de reiniciar
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+
     }
 }

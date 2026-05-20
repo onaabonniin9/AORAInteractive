@@ -4,7 +4,12 @@ namespace Microjuego3_MGS
 {
     public class MGS_Coin : MonoBehaviour
     {
+        [Header("Configuración de la Moneda")]
         public float velocidadRotacion = 100f;
+        
+        [Header("Sonido")]
+        public AudioClip sonidoRecoger;
+
         private MGS_GameManager gameManager;
 
         void Start()
@@ -26,9 +31,14 @@ namespace Microjuego3_MGS
             {
                 if (gameManager != null)
                 {
-                    // CAMBIAMOS "RecogerMoneda" por "SumarMoneda"
                     gameManager.SumarMoneda();
                 }
+
+                if (sonidoRecoger != null)
+                {
+                    AudioSource.PlayClipAtPoint(sonidoRecoger, transform.position);
+                }
+
                 // ¡Destruye la moneda para que desaparezca de la pantalla!
                 Destroy(gameObject);
             }

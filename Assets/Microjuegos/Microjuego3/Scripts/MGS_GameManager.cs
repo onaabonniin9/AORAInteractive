@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 namespace Microjuego3_MGS
 {
@@ -12,6 +13,7 @@ namespace Microjuego3_MGS
         [Header("Interfaz (UI)")]
         public TextMeshProUGUI textoTiempo;
         public TextMeshProUGUI textoMonedas;
+        public GameObject botonReiniciar; // Arrastraremos el botón aquí
 
         private float tiempoActual;
         private int monedasRecogidas = 0;
@@ -23,6 +25,9 @@ namespace Microjuego3_MGS
             Time.timeScale = 1f;
             tiempoActual = tiempoMaximo;
             ActualizarTextoMonedas();
+
+            // Ocultamos el botón de reiniciar al empezar a jugar
+            if (botonReiniciar != null) botonReiniciar.SetActive(false);
         }
 
         void Update()
@@ -35,9 +40,7 @@ namespace Microjuego3_MGS
             // Formatear el tiempo a "00:00"
             int minutos = Mathf.FloorToInt(tiempoActual / 60F);
             int segundos = Mathf.FloorToInt(tiempoActual - minutos * 60);
-            
-            if (textoTiempo != null)
-                textoTiempo.text = string.Format("{0:00}:{1:00}", minutos, segundos);
+            textoTiempo.text = string.Format("{0:00}:{1:00}", minutos, segundos);
 
             // Perder por tiempo
             if (tiempoActual <= 0)
@@ -55,7 +58,7 @@ namespace Microjuego3_MGS
             monedasRecogidas++;
             ActualizarTextoMonedas();
 
-            // Si tenemos exactamente 9 monedas, buscamos la puerta y la abrimos
+            // NUEVO: Si tenemos exactamente 9 monedas, buscamos la puerta y la abrimos
             if (monedasRecogidas == 9)
             {
                 MGS_Door puerta = Object.FindFirstObjectByType<MGS_Door>();
@@ -74,54 +77,32 @@ namespace Microjuego3_MGS
 
         private void ActualizarTextoMonedas()
         {
-            if (textoMonedas != null)
-                textoMonedas.text = monedasRecogidas + " / " + totalMonedasNivel;
+            textoMonedas.text = monedasRecogidas + " / " + totalMonedasNivel;
         }
 
         public void GanarJuego()
         {
-            if (juegoTerminado) return;
             juegoTerminado = true;
-
-            if (textoTiempo != null)
-            {
-                textoTiempo.text = "¡VICTORIA!";
-                textoTiempo.color = Color.green;
-            }
-
+            textoTiempo.text = "¡VICTORIA!";
+            textoTiempo.color = Color.green;
             Time.timeScale = 0f; // Congela el juego
-
-            if (GlobalGameManager.instance != null)
-            {
-                GlobalGameManager.instance.WinLevel(monedasRecogidas);
-            }
-            else
-            {
-                Debug.LogWarning("GlobalGameManager no detectado.");
-            }
+            if (botonReiniciar != null) botonReiniciar.SetActive(true); // Muestra el botón
         }
 
         public void PerderJuego()
         {
-            if (juegoTerminado) return;
             juegoTerminado = true;
-
-            if (textoTiempo != null)
-            {
-                textoTiempo.text = "¡DERROTA!";
-                textoTiempo.color = Color.red;
-            }
-
+            textoTiempo.text = "¡DERROTA!";
+            textoTiempo.color = Color.red;
             Time.timeScale = 0f; // Congela el juego
-
-            if (GlobalGameManager.instance != null)
-            {
-                GlobalGameManager.instance.LoseLevel();
-            }
-            else
-            {
-                Debug.LogWarning("GlobalGameManager no detectado.");
-            }
+            if (botonReiniciar != null) botonReiniciar.SetActive(true); // Muestra el botón
         }
+
+        public void ReiniciarJuego()
+        {
+            Time.timeScale = 1f; // ¡MUY IMPORTANTE! Descongelar antes de reiniciar
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+
     }
 }
